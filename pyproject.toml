@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+
+[tool.packaging]
+dynamic = ["authors", "classifiers", "dependencies", ]
+
+
+[metadata]
+name = "robotframework-Datum"
+version = "1.0.9" 
+description = "robot framework library that contains a set of functions for visual testing"
+readme = "README.rst"
+requires-python = ">=3.6"

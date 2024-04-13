@@ -1,2 +1,5 @@
 venv/*
+*.xml
+*.html
+iSee/__pycache__/*
 _.DS-Store

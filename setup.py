@@ -13,7 +13,7 @@ with open(join(CURDIR, 'requirements.txt')) as f:
 
 
 setup(
-    name="robotframework-Datum",
+    name="robotframework-iSee",
     version="0.1.0",
     author="AI Driven ST Foundation";
     author_email="contact.aidrivenstfoundation@gmail.com",

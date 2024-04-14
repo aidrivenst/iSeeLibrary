@@ -1,2 +1,5 @@
-from robot.api import logger
-import os
+from .imageKeywords import imageKeywords
+
+__all__ = [
+    'imageKeywords'
+]

@@ -13,13 +13,13 @@ with open(join(CURDIR, 'requirements.txt')) as f:
 
 
 setup(
-    name="robotframework-Datum",
+    name="robotframework-iSee",
     version="0.1.0",
-    author="AI Driven ST Foundation;
+    author="AI Driven ST Foundation",
     author_email="contact.aidrivenstfoundation@gmail.com",
     description="robot framework library that contains a set of functions for visual testing",
     long_description=README,
-    long_description_content_type="text/markdown",
+    long_description_content_type="text/x-rst",
     url="https://github.com/aidrivenst/iSeeLibrary",
     classifiers=[
         "Topic :: Software Development :: Testing",
@@ -33,5 +33,5 @@ setup(
     packages=["iSeeLibrary"],
     include_package_data=True,
     install_requires=REQUIREMENTS,
-    python_requires=">=3.0",
+    python_requires=">=3.6"
 )

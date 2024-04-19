@@ -21,6 +21,7 @@ natsort==8.4.0
 outcome==1.3.0.post0
 packaging==24.0
 percy-appium-app==2.0.5
+pillow==10.3.0
 pluggy==1.4.0
 psutil==5.9.8
 pycparser==2.22

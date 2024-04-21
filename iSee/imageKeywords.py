@@ -311,14 +311,14 @@ class imageKeywords():
         #     driver.update_settings(settings)
             
     @keyword("Is Image Displayed Using Screenshot")
-    def Is_Image_Displayed_Using_Screenshot(self, element_path, screenshot_path):
+    def Is_Image_Displayed_Using_Screenshot(self, template_image_path, screenshot_path):
 
         # Debugging
-        print("Image 1 path:", element_path)
+        print("Image 1 path:", template_image_path)
         print("Image 2 path:", screenshot_path)
 
         # Charger les images
-        image1 = cv2.imread(element_path)
+        image1 = cv2.imread(template_image_path)
         image2 = cv2.imread(screenshot_path)
         if image1 is None or image2 is None:
             raise ValueError("Impossible de charger les images.")
@@ -338,7 +338,7 @@ class imageKeywords():
         # Log the coordinates to tap on
         logger.info(f"Coordinates to tap: ({tap_x}, {tap_y})")
 
-        with open(element_path, 'rb') as img_file:
+        with open(template_image_path, 'rb') as img_file:
             image_data = img_file.read()
             encoded_image1_data = base64.b64encode(image_data).decode('utf-8')
         
@@ -360,7 +360,7 @@ class imageKeywords():
                 image_data = img_file.read()
                 encoded_image_res_data = base64.b64encode(image_data).decode('utf-8')
 
-            with open(element_path, 'rb') as img_file:
+            with open(template_image_path, 'rb') as img_file:
                 image_data = img_file.read()
                 encoded_image1_data = base64.b64encode(image_data).decode('utf-8')
             

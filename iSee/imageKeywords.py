@@ -377,3 +377,71 @@ class imageKeywords():
             logger.info(" <br> Element cible cherché sur la screenshot <br> " + image1_tag, html=True)
             logger.info(" <br> Screenshot pris en cours du test <br> "  + image2_tag, html=True)
             raise AssertionError ("Element not found in devices screen")
+
+    @keyword("Is Image Displayed Using Screenshot")
+    def Click_Image_Using_Screenshot(self, template_image_path, screenshot_path):
+
+        # Debugging
+        print("Image 1 path:", template_image_path)
+        print("Image 2 path:", screenshot_path)
+
+        # Charger les images
+        image1 = cv2.imread(template_image_path)
+        image2 = cv2.imread(screenshot_path)
+        if image1 is None or image2 is None:
+            raise ValueError("Impossible de charger les images.")
+    ###
+        result = cv2.matchTemplate(image2, image1, cv2.TM_CCOEFF_NORMED)
+        threshold = .85
+        locations = np.where(result >= threshold)
+        logger.info(locations)
+    ####
+        # Find the top-left coordinate of the first match
+        min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
+        top_left = max_loc  # Top-left corner of the matched area
+        # Calculate the center of the rectangle to tap
+        tap_x = top_left[0] + image1.shape[1] // 2
+        tap_y = top_left[1] + image1.shape[0] // 2
+
+        # Log the coordinates to tap on
+        logger.info(f"Coordinates to tap: ({tap_x}, {tap_y})")
+
+        with open(template_image_path, 'rb') as img_file:
+            image_data = img_file.read()
+            encoded_image1_data = base64.b64encode(image_data).decode('utf-8')
+        
+        with open(screenshot_path, 'rb') as img_file:
+            image_data = img_file.read()
+            encoded_image2_data = base64.b64encode(image_data).decode('utf-8')
+
+        image1_tag = f'<img text="Element cherché: " src="data:image/png;base64,{encoded_image1_data}" width="10%">'
+        image2_tag = f'<img src="data:image/png;base64,{encoded_image2_data}" width="10%">'
+            # Vérifier s'il y a des correspondances
+        if locations[0].size > 0:
+            y, x = locations[::-1]
+            x, y = x[0], y[0]
+            cv2.rectangle(image2, (x, y), (x + image1.shape[1], y + image1.shape[0]), (0, 0, 255), 2)
+            
+            cv2.imwrite('image2.png', image2)
+            
+            with open('image2.png', 'rb') as img_file:
+                image_data = img_file.read()
+                encoded_image_res_data = base64.b64encode(image_data).decode('utf-8')
+
+            with open(template_image_path, 'rb') as img_file:
+                image_data = img_file.read()
+                encoded_image1_data = base64.b64encode(image_data).decode('utf-8')
+            
+            with open(screenshot_path, 'rb') as img_file:
+                image_data = img_file.read()
+                encoded_image2_data = base64.b64encode(image_data).decode('utf-8')
+            image_res_tag = f'<img src="data:image/png;base64,{encoded_image_res_data}" width="10%">'
+
+            logger.info(" <br> Element cible cherché sur la screenshot <br> " + image1_tag, html=True)
+            logger.info(" <br> Screenshot pris en cours du test <br> "  + image2_tag, html=True)
+            logger.info(" <br> Resultat du vérification à l'aide de comparison des images <br> " + image_res_tag, html=True)
+        else:
+            logger.info('Element not found in devices screen')
+            logger.info(" <br> Element cible cherché sur la screenshot <br> " + image1_tag, html=True)
+            logger.info(" <br> Screenshot pris en cours du test <br> "  + image2_tag, html=True)
+            raise AssertionError ("Element not found in devices screen")

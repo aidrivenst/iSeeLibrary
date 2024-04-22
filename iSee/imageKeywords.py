@@ -23,7 +23,7 @@ class imageKeywords():
         logger.info(message, also_console=True)
 
     @keyword("Is Image Displayed") 
-    def is_image_displayed(image_path):
+    def is_image_displayed(self, image_path):
         """
         Checks if an image is displayed on the screen using OpenCV.
         

@@ -22,6 +22,22 @@ class imageKeywords():
         """Logs a message to the Robot Framework log file."""
         logger.info(message, also_console=True)
 
+    @keyword("Appium Element Screenshot") 
+    def appium_element_screenshot(self, locator):
+        """
+        capture element screenshot
+        
+        """
+
+        built_in = BuiltIn()
+        appium_lib = built_in.get_library_instance('AppiumLibrary')
+        driver = appium_lib._current_application()
+        # Locate the element you want to take a screenshot of
+        element = driver.find_element(AppiumBy.XPATH,locator)
+
+        # Take a screenshot of the element
+        element.screenshot('appiumelementscreenshot.png')
+
     @keyword("Is Image Displayed") 
     def is_image_displayed(self, image_path):
         """
@@ -378,7 +394,7 @@ class imageKeywords():
             logger.info(" <br> Screenshot pris en cours du test <br> "  + image2_tag, html=True)
             raise AssertionError ("Element not found in devices screen")
 
-    @keyword("Is Image Displayed Using Screenshot")
+    @keyword("Click Image Using Screenshot")
     def Click_Image_Using_Screenshot(self, template_image_path, screenshot_path):
 
         # Debugging

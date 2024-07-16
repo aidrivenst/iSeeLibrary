@@ -2,7 +2,7 @@ from appium.webdriver.common.appiumby import AppiumBy
 
 class LocatingStrategy:
     @staticmethod
-    def locating_strategy(locator):
+    def locating_strategy(locator : str):
         """
         Determines if the locator is an XPath or an ID.
 

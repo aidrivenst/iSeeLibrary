@@ -1,6 +1,6 @@
-userName: 
-accessKey: 
-app: bs://7b4a91a22a1edfe3e2111588f8cbb165dc8b6127
+userName: abdelkader_V4xYMH
+accessKey: tanzNWSELCnpVpEnHZA4
+app: bs://52873e79778d695513aa1f9042d8bbd02cafcca7
 platforms:
   - platformName: android
     deviceName: Google Pixel 7 Pro
@@ -15,6 +15,7 @@ platforms:
   #   deviceName: iPhone XS
   #   platformVersion: 15
 parallelsPerPlatform: 1
+appiumVersion: 2.4.1
 browserstackLocal: true
 buildName: bstack-demo
 buildIdentifier: ${BUILD_NUMBER}

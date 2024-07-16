@@ -4,6 +4,7 @@ from robot.libraries.BuiltIn import BuiltIn
 from appium.webdriver.common.appiumby import AppiumBy
 from AppiumLibrary import AppiumLibrary
 from appium.webdriver.common.touch_action import TouchAction    
+from robot.utils import ConnectionCache
 import base64
 from PIL import Image, ImageDraw
 import io
@@ -17,26 +18,6 @@ class imageKeywords():
     def __init__(self, *args):
         self.args = args
 
-    @keyword("Test Keyword")  # the explicit name of the keyword here -- 
-    def test_keyword(self, message):
-        """Logs a message to the Robot Framework log file."""
-        logger.info(message, also_console=True)
-
-    @keyword("Appium Element Screenshot") 
-    def appium_element_screenshot(self, locator):
-        """
-        capture element screenshot
-        
-        """
-
-        built_in = BuiltIn()
-        appium_lib = built_in.get_library_instance('AppiumLibrary')
-        driver = appium_lib._current_application()
-        # Locate the element you want to take a screenshot of
-        element = driver.find_element(AppiumBy.XPATH,locator)
-
-        # Take a screenshot of the element
-        element.screenshot('appiumelementscreenshot.png')
 
     @keyword("Is Image Displayed") 
     def is_image_displayed(self, image_path):

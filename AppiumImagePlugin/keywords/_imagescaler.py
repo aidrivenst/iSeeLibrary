@@ -1,13 +1,12 @@
 import os
 import cv2
 from robot.api import logger
-from _screenshot import MobileElementScreenshot
+from .keywordgroup import KeywordGroup
 
-class ImageScaler:
-    
+class ImageScaler(KeywordGroup):
 
     @staticmethod
-    def scale_image_two_factors(path, scale_x: float, scale_y: float):
+    def scale_image_two_factors(self, path, scale_x: float, scale_y: float):
         """
         Scale the image using two factors (scale_x and scale_y).
         
@@ -30,8 +29,7 @@ class ImageScaler:
         output_path = f"scaled_{scale_x:.2f}_{scale_y:.2f}_{name}{ext}"
         cv2.imwrite(output_path, scaled_image)
         logger.info(f"Image saved at {output_path}")
-        MobileElementScreenshot._embed_image_to_log()
-
+        self._embed_image_to_log()
 
     @staticmethod
     def scale_image_single_factor(path, scale: float):

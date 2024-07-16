@@ -3,3 +3,22 @@ venv/*
 *.html
 iSee/__pycache__/*
 _.DS-Store
+*.png
+.pabotsuitenames
+*.log
+pabot_results/*
+*.out
+
+# build art to ignore
+build/
+dist/
+*.egg-info/
+*.egg
+*.py[cod]
+__pycache__/
+*.so
+*~
+
+# due to using tox and pytest
+.tox
+.cache

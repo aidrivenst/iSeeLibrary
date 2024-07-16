@@ -1,0 +1,24 @@
+userName: abdelkader_V4xYMH
+accessKey: tanzNWSELCnpVpEnHZA4
+app: bs://52873e79778d695513aa1f9042d8bbd02cafcca7
+platforms:
+  - platformName: android
+    deviceName: Google Pixel 7 Pro
+    platformVersion: 13.0
+  # - platformName: android
+  #   deviceName: Samsung Galaxy S22 Ultra
+  #   platformVersion: 12.0
+  # - platformName: ios
+  #   deviceName: iPhone 14 Pro Max
+  #   platformVersion: 16
+  # - platformName: ios
+  #   deviceName: iPhone XS
+  #   platformVersion: 15
+parallelsPerPlatform: 1
+appiumVersion: 2.4.1
+browserstackLocal: true
+buildName: bstack-demo
+buildIdentifier: ${BUILD_NUMBER}
+projectName: BrowserStack
+debug: true
+networkLogs: true

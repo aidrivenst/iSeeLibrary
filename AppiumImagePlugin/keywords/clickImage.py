@@ -3,12 +3,22 @@ from robot.api import logger
 from robot.libraries.BuiltIn import BuiltIn
 from appium.webdriver.common.appiumby import AppiumBy
 from robot.api.deco import *
+from .keywordgroup import KeywordGroup
+from AppiumLibrary.locators import ElementFinder
 
-class clickImage():
+class ImageKeywords(KeywordGroup):
+    def __init__(self):
+        self._element_finder = ElementFinder()
+        self._bi = BuiltIn()
 
-    def __init__(self, *args):
-        #self.image_path = image_path
-        self.args = args
+    # Public, element lookups
+    def clear_text(self, locator):
+        """Clears the text field identified by `locator`.
+
+        See `introduction` for details about locating elements.
+        """
+        self._info("Clear text field '%s'" % locator)
+        self._element_clear_text_by_locator(locator)
 
 
     @keyword("Click On Image")

@@ -1,7 +1,8 @@
 from robot.api.deco import keyword, not_keyword
 from ._logging import _LoggingKeywords
 import os
-import robot 
+import robot
+
 class _ScreenshotKeywords(_LoggingKeywords):
     def __init__(self):
         super().__init__()
@@ -54,3 +55,28 @@ class _ScreenshotKeywords(_LoggingKeywords):
         path = os.path.join(logdir, filename)
         link = robot.utils.get_link_path(path, logdir)
         return path, link
+    
+    @keyword
+    def get_appium_element_screenshot(self,locator, screenshot_name=None):
+        """ capture element screenshot using appium
+        par defaut : appiumelementscreenshot
+        this function do not log the image
+        """
+        driver = self._current_application()
+
+        elements = self._element_finder.find(driver, locator)
+        element = driver.find_element(AppiumBy.XPATH,xpath)
+
+        #par defaut : appiumelementscreenshot
+        if screenshot_name:
+            base_filename = screenshot_name
+        else:
+            base_filename = 'appiumelementscreenshot.png'
+        
+        filename = base_filename
+        counter = 1
+        while os.path.exists(filename):
+            name, ext = os.path.splitext(base_filename)
+            filename = f'{name}_{counter}{ext}'
+            counter += 1    
+        element.screenshot(filename)

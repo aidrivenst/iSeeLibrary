@@ -59,9 +59,16 @@ class _LoggingKeywords():
         self._info('\n'.join(msg))
         return items
     
-    def _embed_image_to_log(self, image_path, message="Image", width=10):
+    def _log_image_file(self, image_path, width=10):
+        encoded_image= self._image_to_base64(image_path)
+        self._log_image(encoded_image,width)
+
+    def _image_to_base64(self,image_path):
         with open(image_path, 'rb') as img_file:
             image_data = img_file.read()
-            encoded_image_data = base64.b64encode(image_data).decode('utf-8')
+            encoded_image = base64.b64encode(image_data).decode('utf-8')
+            return encoded_image
+        
+    def _log_image(self,encoded_image_data, width):
         image_tag = f'<img src="data:image/png;base64,{encoded_image_data}" width="{width}%">'
-        self._html(f" <br> {message}: <br> " + image_tag)
+        self._html(image_tag)

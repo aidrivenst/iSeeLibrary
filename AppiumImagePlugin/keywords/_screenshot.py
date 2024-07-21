@@ -1,55 +1,60 @@
 from robot.api.deco import keyword, not_keyword
-from ._logging import _LoggingKeywords
 import os
-import robot 
-class _ScreenshotKeywords(_LoggingKeywords):
+import robot
+import base64
+from keywordgroup import KeywordGroup
+from AppiumImagePlugin.locators import ElementFinder
+from ._logging import _LoggingKeywords
+class _ScreenshotKeywords(KeywordGroup):
+
     def __init__(self):
-        super().__init__()
-
+        self._element_finder = ElementFinder()
+        self._logging = _LoggingKeywords()
     @not_keyword
-    def capture_screenshot(self, filename):
+    def capture_page_screenshot_base64(self):
         driver = self._current_application()
-        screenshot = driver.get_screenshot_as_file(filename)
-        if screenshot:
-            self._info(f"Screenshot saved to {filename}")
-        else:
-            self._warn(f"Failed to capture screenshot to {filename}")
-
-    def capture_page_screenshot(self, filename=None):
-        """Takes a screenshot of the current page and embeds it into the log.
-
-        `filename` argument specifies the name of the file to write the
-        screenshot into. If no `filename` is given, the screenshot will be
-        embedded as Base64 image to the log.html. In this case no file is created in the filesystem.
-
-        Warning: this behavior is new in 1.7. Previously if no filename was given
-        the screenshots where stored as separate files named `appium-screenshot-<counter>.png`
+        screenshot_base64 = driver.get_screenshot_as_base64()
+        return screenshot_base64
+    
+    @keyword
+    def capture_element_screenshot(self,locator, screenshot_name=None):
+        """ capture element screenshot using locator
+        default name : element-screenshot
+        this function do not log the image
         """
-        if filename:
-            path, link = self._get_screenshot_paths(filename)
+        element = self._element_finder._element_find(locator, True, True)
+        
+        if screenshot_name:
+            path, link = self._get_screenshot_paths(screenshot_name)
 
             if hasattr(self._current_application(), 'get_screenshot_as_file'):
-                self._current_application().get_screenshot_as_file(path)
+                element.get_screenshot_as_file(path)
             else:
-                self._current_application().save_screenshot(path)
+                element.save_screenshot(path)
 
-            # # Image is shown on its own row and thus prev row is closed on purpose
-            # self._html('</td></tr><tr><td colspan="3"><a href="%s">'
-            #            '<img src="%s" width="800px"></a>' % (link, link))
+            self._logging._log_image()
             return path
         else:
-            base64_screenshot = self._current_application().get_screenshot_as_base64()
+            base64_screenshot = element.get_screenshot_as_base64()
             self._html('</td></tr><tr><td colspan="3">'
                        '<img src="data:image/png;base64, %s" width="800px">' % base64_screenshot)
             return None
-        
-    @keyword
-    def capture_screenshot_and_embed(self, filename):
-        self.capture_screenshot(filename)
-        self._html(f'<img src="{filename}" width="800px">')
+
+    #private
+    def _image_to_base64(self,image_path):
+        if not os.path.exists(image_path):
+            raise FileNotFoundError(f"Image file does not exist: {image_path}")
+        with open(image_path, 'rb') as img_file:
+            image_data = img_file.read()
+            encoded_image = base64.b64encode(image_data).decode('utf-8')
+            return encoded_image
 
     def _get_screenshot_paths(self, filename):
-        filename = filename.replace('/', os.sep)
+        if not filename:
+            self._screenshot_index += 1
+            filename = 'screenshot-%d.png' % self._screenshot_index
+        else:
+            filename = filename.replace('/', os.sep)
         logdir = self._get_log_dir()
         path = os.path.join(logdir, filename)
         link = robot.utils.get_link_path(path, logdir)

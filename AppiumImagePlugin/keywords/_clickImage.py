@@ -3,13 +3,14 @@ from robot.api import logger
 from robot.libraries.BuiltIn import BuiltIn
 from appium.webdriver.common.appiumby import AppiumBy
 from robot.api.deco import *
+from .keywordgroup import KeywordGroup
+from AppiumImagePlugin.locators import ElementFinder
 
-class clickImage():
 
-    def __init__(self, *args):
-        #self.image_path = image_path
-        self.args = args
-
+class _ImageKeywords(KeywordGroup):
+    def __init__(self):
+        self._element_finder = ElementFinder()
+        self._bi = BuiltIn()
 
     @keyword("Click On Image")
     def click_On_image(self, image_path):
@@ -22,29 +23,9 @@ class clickImage():
         Returns:
         bool: True if the click was successful, False otherwise.
         """
-        built_in = BuiltIn()
-        appium_lib = built_in.get_library_instance('AppiumLibrary')
-        driver = appium_lib._current_application()
-
-        try:
-            # mandatory to convert it : it works like this :/ ---- WIP to implement training on our picto 
-            with open(image_path, "rb") as image_file:
-                encoded_string = base64.b64encode(image_file.read()).decode('utf-8')
-
-            logger.info(f"Attempting to find and click the image at {image_path}")
-            
-            # use appiumBy +  encoded string 
-            element = driver.find_element(AppiumBy.IMAGE,encoded_string)
-            logger.info (element)
-            if element:
-                element.click()
-                logger.info("Click successful.")
-                return True
-            else:
-                raise AssertionError("No element found matching the image.")
-                
-        except Exception as e:
-            raise AssertionError(f"An error occurred: {str(e)}")
+        self._info("Click element identified by image")
+        self._log_image_file(image_path)
+        self._element_finder._element_find(image_path,True,True).click()
 
     @keyword("Auto Scaler Image Clicker")
     def auto_scaler_image_clicker(self, image_path):

@@ -64,11 +64,13 @@ class _LoggingKeywords():
         self._log_image(encoded_image,width)
 
     def _image_to_base64(self,image_path):
+        if not os.path.exists(image_path):
+            raise FileNotFoundError(f"Image file does not exist: {image_path}")
         with open(image_path, 'rb') as img_file:
             image_data = img_file.read()
             encoded_image = base64.b64encode(image_data).decode('utf-8')
             return encoded_image
         
-    def _log_image(self,encoded_image_data, width):
+    def _log_image(self,encoded_image_data, width=50):
         image_tag = f'<img src="data:image/png;base64,{encoded_image_data}" width="{width}%">'
         self._html(image_tag)

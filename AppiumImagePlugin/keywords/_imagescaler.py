@@ -3,10 +3,10 @@ import cv2
 from robot.api import logger
 from .keywordgroup import KeywordGroup
 
-class ImageScaler(KeywordGroup):
+class _ImageScaler(KeywordGroup):
 
     @staticmethod
-    def scale_image_two_factors(self, path, scale_x: float, scale_y: float):
+    def scale_image_two_factors(self, path, scale_x: float, scale_y: float, output_path:None):
         """
         Scale the image using two factors (scale_x and scale_y).
         
@@ -23,16 +23,17 @@ class ImageScaler(KeywordGroup):
             raise FileNotFoundError(f"The image at path {path} could not be found.")
         
         scaled_image = cv2.resize(image, None, fx=scale_x, fy=scale_y, interpolation=cv2.INTER_LINEAR)
-        
-        base_name = os.path.basename(path)
-        name, ext = os.path.splitext(base_name)
-        output_path = f"scaled_{scale_x:.2f}_{scale_y:.2f}_{name}{ext}"
+        if not output_path:
+            base_name = os.path.basename(path)
+            name, ext = os.path.splitext(base_name)
+            output_path = f"scaled_{scale_x:.2f}_{scale_y:.2f}_{name}{ext}"
         cv2.imwrite(output_path, scaled_image)
-        logger.info(f"Image saved at {output_path}")
-        self._embed_image_to_log()
+        return output_path
+        #logger.info(f"Image saved at {output_path}")
+        #self._embed_image_to_log()
 
     @staticmethod
-    def scale_image_single_factor(path, scale: float):
+    def scale_image_single_factor(path, scale: float, output_path:None):
         """
         Scale the image using a single factor.
         
@@ -48,10 +49,12 @@ class ImageScaler(KeywordGroup):
             raise FileNotFoundError(f"The image at path {path} could not be found.")
 
         scaled_image = cv2.resize(image, None, fx=scale, fy=scale, interpolation=cv2.INTER_LINEAR)
-        
-        base_name = os.path.basename(path)
-        name, ext = os.path.splitext(base_name)
-        output_path = f"scaled_{scale:.2f}_{name}{ext}"
+        if not output_path:
+            base_name = os.path.basename(path)
+            name, ext = os.path.splitext(base_name)
+            output_path = f"scaled_{scale:.2f}_{name}{ext}"
         cv2.imwrite(output_path, scaled_image)
-        logger.info(f"Image saved at {output_path}")
+        #logger.info(f"Image saved at {output_path}")
+        return output_path
+
         

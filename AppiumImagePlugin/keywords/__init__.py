@@ -7,5 +7,5 @@ from _imagescaler import _ImageScaler
 __all__ = ["_LoggingKeywords",
            "_ScreenshotKeywords",
            "_ImageKeywords",
-           "_imageScaler"
+           "_ImageScaler"
             ]

@@ -13,7 +13,7 @@ with open(join(CURDIR, 'requirements.txt')) as f:
 
 
 setup(
-    name="robotframework-iSee",
+    name="robotframework-appiumimage",
     version="0.1.0",
     author="AI Driven ST Foundation",
     author_email="contact.aidrivenstfoundation@gmail.com",
@@ -30,8 +30,8 @@ setup(
         "Programming Language :: Python :: 3.9",
         "Operating System :: OS Independent",
     ],
-    packages=["iSeeLibrary"],
+    packages=["AppiumImagePlugin"],
     include_package_data=True,
-    install_requires=REQUIREMENTS,
+    #install_requires=REQUIREMENTS,
     python_requires=">=3.6"
 )

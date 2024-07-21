@@ -4,6 +4,7 @@ from robot.libraries.BuiltIn import BuiltIn
 from appium.webdriver.common.appiumby import AppiumBy
 from AppiumLibrary import AppiumLibrary
 from appium.webdriver.common.touch_action import TouchAction    
+from robot.utils import ConnectionCache
 import base64
 from PIL import Image, ImageDraw
 import io
@@ -17,10 +18,6 @@ class imageKeywords():
     def __init__(self, *args):
         self.args = args
 
-    @keyword("Test Keyword")  # the explicit name of the keyword here -- 
-    def test_keyword(self, message):
-        """Logs a message to the Robot Framework log file."""
-        logger.info(message, also_console=True)
 
     @keyword("Is Image Displayed") 
     def is_image_displayed(self, image_path):
@@ -378,7 +375,7 @@ class imageKeywords():
             logger.info(" <br> Screenshot pris en cours du test <br> "  + image2_tag, html=True)
             raise AssertionError ("Element not found in devices screen")
 
-    @keyword("Is Image Displayed Using Screenshot")
+    @keyword("Click Image Using Screenshot")
     def Click_Image_Using_Screenshot(self, template_image_path, screenshot_path):
 
         # Debugging
